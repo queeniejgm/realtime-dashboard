@@ -30,4 +30,8 @@ export class DataService {
     }
     return this.users$;
   }
+
+  refresh(): void {
+    this.users$ = undefined;
+  }
 }

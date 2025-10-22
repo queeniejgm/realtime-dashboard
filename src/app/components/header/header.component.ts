@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { FilterService } from '../../services/filter.service';
+import { DataService } from '../../services/data.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -15,6 +16,7 @@ import { CommonModule } from '@angular/common';
 })
 export class HeaderComponent implements OnInit {
   private readonly filterService = inject(FilterService);
+  private readonly dataService = inject(DataService);
   activeFiltersCount = 0;
 
   ngOnInit() {
@@ -25,7 +27,9 @@ export class HeaderComponent implements OnInit {
   }
 
   refreshData() {
-    // Force a data refresh by resetting filters
+    // Clear the cached data and trigger a new fetch
+    this.dataService.refresh();
+    // Trigger update to all subscribed components
     this.filterService.updateFilters(this.filterService.currentFilters);
   }
 
