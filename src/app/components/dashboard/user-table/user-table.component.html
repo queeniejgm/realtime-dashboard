@@ -1,3 +1,36 @@
 <div class="user-table">
-  <p>user-table works</p>
+  @if (loading) {
+    <div>Loading users…</div>
+  }
+
+  @if (!loading && error) {
+    <div class="error">{{ error }}</div>
+  }
+
+  @if (!loading && !error && users.length) {
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Last login</th>
+          <th>Session count</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (u of users; track u.id) {
+          <tr>
+            <td>{{ u.name }}</td>
+            <td>{{ u.email }}</td>
+            <td>{{ u.status }}</td>
+            <td>{{ u.lastLogin | date: 'medium' }}</td>
+            <td>{{ u.sessionCount }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  } @else if (!loading && !error && !users.length) {
+    <div>No users.</div>
+  }
 </div>
