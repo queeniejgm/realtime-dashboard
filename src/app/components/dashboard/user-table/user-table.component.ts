@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataService } from '../../../services/data.service';
 import { User } from '../../../models/user.interface';
@@ -14,20 +14,14 @@ export class UserTableComponent implements OnInit {
   users: User[] = [];
   loading = false;
   error: string | null = null;
-
-  constructor(private readonly data: DataService) {}
+  private readonly data = inject(DataService);
 
   ngOnInit() {
     this.loading = true;
     this.error = null;
-    this.data
-      .list()
-      .subscribe({
+    this.data.list().subscribe({
         next: (rows) => {
-          this.users = (rows || []).map((u) => ({
-            ...u,
-            lastLogin: u?.lastLogin ? new Date(u.lastLogin) : (u as any).lastLogin
-          }));
+          this.users = rows || [];
           this.loading = false;
         },
         error: (err) => {
