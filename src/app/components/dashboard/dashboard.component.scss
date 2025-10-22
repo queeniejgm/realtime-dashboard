@@ -1,0 +1,14 @@
+.dashboard {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  background-color: #fafafa;
+  min-height: calc(100vh - 64px);
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 1rem;
+  }
+}
+
