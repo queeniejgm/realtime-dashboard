@@ -1,20 +1,42 @@
-<div class="filter-panel" [formGroup]="form">
-  <div class="row">
-    <input type="text" formControlName="searchTerm" placeholder="Search name or email" />
+<mat-card class="filter-panel">
+  <mat-card-content>
+    <form [formGroup]="form" class="filter-form">
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Search</mat-label>
+          <input matInput formControlName="searchTerm" placeholder="Search name or email">
+          <mat-icon matPrefix>search</mat-icon>
+        </mat-form-field>
 
-    <select formControlName="status">
-      <option value="all">All</option>
-      <option value="active">Active</option>
-      <option value="inactive">Inactive</option>
-    </select>
+        <mat-form-field appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status">
+            <mat-option value="all">All</mat-option>
+            <mat-option value="active">Active</mat-option>
+            <mat-option value="inactive">Inactive</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-    <input type="date" formControlName="dateFrom" />
-    <input type="date" formControlName="dateTo" />
-  </div>
+        <mat-form-field appearance="outline">
+          <mat-label>Date From</mat-label>
+          <input matInput [matDatepicker]="pickerFrom" formControlName="dateFrom">
+          <mat-datepicker-toggle matIconSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+          <mat-datepicker #pickerFrom></mat-datepicker>
+        </mat-form-field>
 
-  <div class="row actions">
-    <button type="button" (click)="form.reset({ searchTerm: '', status: 'all', dateFrom: null, dateTo: null })">
-      Reset
-    </button>
-  </div>
-</div>
+        <mat-form-field appearance="outline">
+          <mat-label>Date To</mat-label>
+          <input matInput [matDatepicker]="pickerTo" formControlName="dateTo">
+          <mat-datepicker-toggle matIconSuffix [for]="pickerTo"></mat-datepicker-toggle>
+          <mat-datepicker #pickerTo></mat-datepicker>
+        </mat-form-field>
+
+        <button mat-raised-button color="accent" type="button" 
+                (click)="form.reset({ searchTerm: '', status: 'all', dateFrom: null, dateTo: null })">
+          <mat-icon>clear</mat-icon>
+          Reset Filters
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,27 @@
+.filter-panel {
+  margin-bottom: 2rem;
+}
+
+.filter-form {
+  .form-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+
+    mat-form-field {
+      flex: 1;
+      min-width: 200px;
+
+      &.full-width {
+        flex: 2;
+      }
+    }
+
+    button {
+      height: 56px;
+      min-width: 150px;
+    }
+  }
+}
+
