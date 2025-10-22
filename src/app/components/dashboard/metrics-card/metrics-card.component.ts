@@ -1,6 +1,9 @@
 import { Component, OnInit, inject, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
 import { DataService } from '../../../services/data.service';
 import { User } from '../../../models/user.interface';
 import { Filter } from '../../../models';
@@ -10,7 +13,7 @@ import { FilterService } from '../../../services/filter.service';
 @Component({
   selector: 'app-metrics-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatCardModule, MatProgressSpinnerModule, MatIconModule],
   templateUrl: './metrics-card.component.html',
   styleUrl: './metrics-card.component.scss'
 })
