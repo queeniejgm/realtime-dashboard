@@ -1,36 +1,73 @@
-<div class="user-table">
-  @if (loading) {
-    <div>Loading users…</div>
-  }
+<mat-card class="user-table-card">
+  <mat-card-header>
+    <mat-card-title>User Data</mat-card-title>
+  </mat-card-header>
+  
+  <mat-card-content>
+    @if (loading) {
+      <div class="loading-state">
+        <mat-spinner diameter="50"></mat-spinner>
+        <p>Loading users…</p>
+      </div>
+    }
 
-  @if (!loading && error) {
-    <div class="error">{{ error }}</div>
-  }
+    @if (!loading && error) {
+      <div class="error-state">
+        <p>{{ error }}</p>
+      </div>
+    }
 
-  @if (!loading && !error && users.length) {
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Status</th>
-          <th>Last login</th>
-          <th>Session count</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (u of users; track u.id) {
-          <tr>
-            <td>{{ u.name }}</td>
-            <td>{{ u.email }}</td>
-            <td>{{ u.status }}</td>
-            <td>{{ u.lastLogin | date: 'medium' }}</td>
-            <td>{{ u.sessionCount }}</td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  } @else if (!loading && !error && !users.length) {
-    <div>No users.</div>
-  }
-</div>
+    @if (!loading && !error && dataSource.data.length) {
+      <div class="table-container">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z0">
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+            <td mat-cell *matCellDef="let user">{{ user.name }}</td>
+          </ng-container>
+
+          <!-- Email Column -->
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+            <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+          </ng-container>
+
+          <!-- Status Column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+            <td mat-cell *matCellDef="let user">
+              <mat-chip [class]="'status-chip-' + user.status">
+                {{ user.status }}
+              </mat-chip>
+            </td>
+          </ng-container>
+
+          <!-- Last Login Column -->
+          <ng-container matColumnDef="lastLogin">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Login</th>
+            <td mat-cell *matCellDef="let user">{{ user.lastLogin | date: 'medium' }}</td>
+          </ng-container>
+
+          <!-- Session Count Column -->
+          <ng-container matColumnDef="sessionCount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sessions</th>
+            <td mat-cell *matCellDef="let user">{{ user.sessionCount }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator 
+          [pageSizeOptions]="[5, 10, 25, 50]" 
+          [pageSize]="10"
+          showFirstLastButtons>
+        </mat-paginator>
+      </div>
+    } @else if (!loading && !error && !dataSource.data.length) {
+      <div class="empty-state">
+        <p>No users found.</p>
+      </div>
+    }
+  </mat-card-content>
+</mat-card>
