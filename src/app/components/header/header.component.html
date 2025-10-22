@@ -1,3 +1,14 @@
-<header>
-  <p>header works - Shows active filters count & refresh button</p>
-</header>
+<mat-toolbar color="primary">
+  <span class="toolbar-title">Fulcrum Dashboard</span>
+  <span class="spacer"></span>
+  
+  <button mat-icon-button [matBadge]="activeFiltersCount" matBadgeColor="accent" 
+          [matBadgeHidden]="activeFiltersCount === 0"
+          matTooltip="Active Filters">
+    <mat-icon>filter_list</mat-icon>
+  </button>
+  
+  <button mat-icon-button (click)="refreshData()" matTooltip="Refresh Data">
+    <mat-icon>refresh</mat-icon>
+  </button>
+</mat-toolbar>
