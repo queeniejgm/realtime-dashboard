@@ -16,7 +16,7 @@
         <mat-card-title>Avg Session Duration</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <div class="metric-value">{{ metrics.averageSessionDuration | number:'1.0-1' }} <span class="unit">min</span></div>
+        <div class="metric-value">{{ metrics.averageSessionDuration | duration }}</div>
       </mat-card-content>
     </mat-card>
 

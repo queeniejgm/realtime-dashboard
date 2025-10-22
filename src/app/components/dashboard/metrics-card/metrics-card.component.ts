@@ -9,11 +9,12 @@ import { User } from '../../../models/user.interface';
 import { Filter } from '../../../models';
 import { combineLatest } from 'rxjs';
 import { FilterService } from '../../../services/filter.service';
+import { DurationPipe } from '../../../pipes';
 
 @Component({
   selector: 'app-metrics-card',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatProgressSpinnerModule, MatIconModule],
+  imports: [CommonModule, MatCardModule, MatProgressSpinnerModule, MatIconModule, DurationPipe],
   templateUrl: './metrics-card.component.html',
   styleUrl: './metrics-card.component.scss'
 })
