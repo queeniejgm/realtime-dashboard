@@ -1,3 +1,20 @@
-<div class="filter-panel">
-  <p>filter-panel works</p>
+<div class="filter-panel" [formGroup]="form">
+  <div class="row">
+    <input type="text" formControlName="searchTerm" placeholder="Search name or email" />
+
+    <select formControlName="status">
+      <option value="all">All</option>
+      <option value="active">Active</option>
+      <option value="inactive">Inactive</option>
+    </select>
+
+    <input type="date" formControlName="dateFrom" />
+    <input type="date" formControlName="dateTo" />
+  </div>
+
+  <div class="row actions">
+    <button type="button" (click)="form.reset({ searchTerm: '', status: 'all', dateFrom: null, dateTo: null })">
+      Reset
+    </button>
+  </div>
 </div>
