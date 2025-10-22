@@ -1,3 +1,27 @@
 <div class="metrics-card">
-  <p>metrics-card works</p>
+  @if (!loading && !error) {
+    <div class="metric">
+      <div class="label">Total active users</div>
+      <div class="value">{{ metrics.totalActiveUsers | number }}</div>
+    </div>
+    <div class="metric">
+      <div class="label">Average session duration</div>
+      <div class="value">{{ metrics.averageSessionDuration | number:'1.0-1' }} min</div>
+    </div>
+    <div class="metric">
+      <div class="label">Conversion rate</div>
+      <div class="value">{{ (metrics.conversionRate * 100) | number:'1.0-1' }}%</div>
+    </div>
+    <div class="metric">
+      <div class="label">Revenue today</div>
+      <div class="value">${{ metrics.revenueToday | number:'1.0-2' }}</div>
+    </div>
+  } @else {
+    @if (loading) {
+      <div class="state">Loading metrics…</div>
+    }
+    @if (error) {
+      <div class="state error">{{ error }}</div>
+    }
+  }
 </div>
