@@ -6,7 +6,7 @@
   .form-row {
     display: flex;
     gap: 1rem;
-    align-items: center;
+    align-items: flex-start;
     flex-wrap: wrap;
 
     mat-form-field {
@@ -19,8 +19,10 @@
     }
 
     button {
+      margin-top: 8px;
       height: 56px;
       min-width: 150px;
+      white-space: nowrap;
     }
   }
 }
