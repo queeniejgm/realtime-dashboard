@@ -1,8 +1,11 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DataService } from '../../../services/data.service';
 import { User } from '../../../models/user.interface';
+import { Filter } from '../../../models';
+import { combineLatest } from 'rxjs';
+import { FilterService } from '../../../services/filter.service';
 
 @Component({
   selector: 'app-metrics-card',
@@ -13,7 +16,8 @@ import { User } from '../../../models/user.interface';
 })
 export class MetricsCardComponent implements OnInit {
   private readonly data = inject(DataService);
-  private readonly destroyRef = takeUntilDestroyed();
+  private readonly filters = inject(FilterService);
+  private readonly destroyRef = inject(DestroyRef);
 
   loading = false;
   error: string | null = null;
@@ -29,11 +33,12 @@ export class MetricsCardComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    this.data.list()
-      .pipe(this.destroyRef)
+    combineLatest<[User[], Filter]>([this.data.list(), this.filters.filters$])
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: (rows) => {
-          this.calculateMetrics(Array.isArray(rows) ? rows : []);
+        next: ([rows, filter]) => {
+          const filtered = this.filters.filterUsers(Array.isArray(rows) ? rows : [], filter);
+          this.calculateMetrics(filtered);
           this.loading = false;
         },
         error: (err) => {

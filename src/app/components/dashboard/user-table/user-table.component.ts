@@ -2,6 +2,9 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataService } from '../../../services/data.service';
 import { User } from '../../../models/user.interface';
+import { combineLatest } from 'rxjs';
+import { Filter } from '../../../models';
+import { FilterService } from '../../../services/filter.service';
 
 @Component({
   selector: 'app-user-table',
@@ -15,19 +18,20 @@ export class UserTableComponent implements OnInit {
   loading = false;
   error: string | null = null;
   private readonly data = inject(DataService);
+  private readonly filters = inject(FilterService);
 
   ngOnInit() {
     this.loading = true;
     this.error = null;
-    this.data.list().subscribe({
-        next: (rows) => {
-          this.users = rows || [];
-          this.loading = false;
-        },
-        error: (err) => {
-          this.error = err?.message || String(err);
-          this.loading = false;
-        }
-      });
+    combineLatest<[User[], Filter]>([this.data.list(), this.filters.filters$]).subscribe({
+      next: ([rows, filter]) => {
+        this.users = this.filters.filterUsers(rows || [], filter);
+        this.loading = false;
+      },
+      error: (err) => {
+        this.error = err?.message || String(err);
+        this.loading = false;
+      }
+    });
   }
 }
