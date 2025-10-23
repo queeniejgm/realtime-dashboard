@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,17 +12,20 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule, MatToolbarModule, MatButtonModule, MatIconModule, MatBadgeModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrl: './header.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
   private readonly filterService = inject(FilterService);
   private readonly dataService = inject(DataService);
+  private readonly cdr = inject(ChangeDetectorRef);
   activeFiltersCount = 0;
 
   ngOnInit() {
     console.log('HeaderComponent initialized');
     this.filterService.filters$.subscribe(filters => {
       this.activeFiltersCount = this.calculateActiveFilters(filters);
+      this.cdr.markForCheck();
     });
   }
 
