@@ -1,4 +1,6 @@
 <div class="metrics-container">
+  @let loading = (loading$ | async);
+  @let error = (error$ | async);
   @if (!loading && !error) {
     <mat-card class="metric-card">
       <mat-card-header>

@@ -4,6 +4,8 @@
   </mat-card-header>
   
   <mat-card-content>
+    @let loading = (loading$ | async);
+    @let error = (error$ | async);
     @if (loading) {
       <div class="loading-state">
         <mat-spinner diameter="50"></mat-spinner>

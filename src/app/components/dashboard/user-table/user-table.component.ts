@@ -42,6 +42,8 @@ export class UserTableComponent implements OnInit, AfterViewInit {
   error: string | null = null;
   private readonly data = inject(DataService);
   private readonly filters = inject(FilterService);
+  public readonly loading$ = this.data.loading$;
+  public readonly error$ = this.data.error$;
   private allUsers: User[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -52,7 +54,7 @@ export class UserTableComponent implements OnInit, AfterViewInit {
     this.error = null;
     
     // Initial load
-    this.data.list().subscribe();
+    this.data.list().subscribe({ error: () => {} });
 
     // Listen to the shared users observable and filters
     combineLatest<[User[], Filter]>([this.data.users, this.filters.filters$]).subscribe({

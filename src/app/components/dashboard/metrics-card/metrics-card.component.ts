@@ -22,9 +22,8 @@ export class MetricsCardComponent implements OnInit {
   private readonly data = inject(DataService);
   private readonly filters = inject(FilterService);
   private readonly destroyRef = inject(DestroyRef);
-
-  loading = false;
-  error: string | null = null;
+  public readonly loading$ = this.data.loading$;
+  public readonly error$ = this.data.error$;
 
   metrics = {
     totalActiveUsers: 0,
@@ -34,11 +33,8 @@ export class MetricsCardComponent implements OnInit {
   };
 
   ngOnInit() {
-    this.loading = true;
-    this.error = null;
-
     // Initial load
-    this.data.list().subscribe();
+    this.data.list().subscribe({ error: () => {} });
 
     // Listen to both the shared users observable and filters
     combineLatest<[User[], Filter]>([this.data.users, this.filters.filters$])
@@ -47,12 +43,8 @@ export class MetricsCardComponent implements OnInit {
         next: ([rows, filter]) => {
           const filtered = this.filters.filterUsers(Array.isArray(rows) ? rows : [], filter);
           this.calculateMetrics(filtered);
-          this.loading = false;
         },
-        error: (err) => {
-          this.error = err?.message || String(err);
-          this.loading = false;
-        }
+        error: () => {}
       });
   }
 
