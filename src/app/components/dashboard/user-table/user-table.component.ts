@@ -14,6 +14,7 @@ import { User } from '../../../models/user.interface';
 import { combineLatest } from 'rxjs';
 import { Filter } from '../../../models';
 import { FilterService } from '../../../services/filter.service';
+import { HighlightRowDirective } from '../../../directives';
 
 @Component({
   selector: 'app-user-table',
@@ -28,7 +29,8 @@ import { FilterService } from '../../../services/filter.service';
     MatChipsModule,
     MatButtonModule,
     MatIconModule,
-    MatTooltipModule
+    MatTooltipModule,
+    HighlightRowDirective
   ],
   templateUrl: './user-table.component.html',
   styleUrl: './user-table.component.scss'

@@ -64,5 +64,26 @@
   mat-paginator {
     border-top: 1px solid #e0e0e0;
   }
+
+  // Row highlight animation
+  tr.mat-mdc-row {
+    transition: background-color 0.3s ease-out;
+    
+    &.row-highlight {
+      animation: highlightFade 2s ease-out;
+    }
+  }
+}
+
+@keyframes highlightFade {
+  0% {
+    background-color: #ffd54f;
+  }
+  50% {
+    background-color: #ffecb3;
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
