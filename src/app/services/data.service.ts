@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, map, shareReplay } from 'rxjs';
+import { Observable, map, shareReplay, BehaviorSubject, switchMap, tap } from 'rxjs';
 import { User } from '../models/user.interface';
 
 @Injectable({
@@ -14,6 +14,8 @@ export class DataService {
   private readonly headers = new HttpHeaders({ 'x-apikey': this.apiKey });
   
   private users$?: Observable<User[]>;
+  private usersSubject = new BehaviorSubject<User[]>([]);
+  public users = this.usersSubject.asObservable();
 
   list(): Observable<User[]> {
     if (!this.users$) {
@@ -25,10 +27,15 @@ export class DataService {
             lastLogin: user.lastLogin ? new Date(user.lastLogin) : user.lastLogin
           }) as User)
         ),
+        tap(users => this.usersSubject.next(users)),
         shareReplay(1)
       );
     }
     return this.users$;
+  }
+
+  updateUsers(users: User[]): void {
+    this.usersSubject.next(users);
   }
 
   refresh(): void {

@@ -6,6 +6,9 @@ import { MatSortModule, MatSort } from '@angular/material/sort';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { DataService } from '../../../services/data.service';
 import { User } from '../../../models/user.interface';
 import { combineLatest } from 'rxjs';
@@ -22,18 +25,22 @@ import { FilterService } from '../../../services/filter.service';
     MatSortModule, 
     MatProgressSpinnerModule,
     MatCardModule,
-    MatChipsModule
+    MatChipsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule
   ],
   templateUrl: './user-table.component.html',
   styleUrl: './user-table.component.scss'
 })
 export class UserTableComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['name', 'email', 'status', 'lastLogin', 'sessionCount', 'revenue'];
+  displayedColumns: string[] = ['name', 'email', 'status', 'lastLogin', 'sessionCount', 'revenue', 'actions'];
   dataSource = new MatTableDataSource<User>([]);
   loading = false;
   error: string | null = null;
   private readonly data = inject(DataService);
   private readonly filters = inject(FilterService);
+  private allUsers: User[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -41,9 +48,15 @@ export class UserTableComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.loading = true;
     this.error = null;
-    combineLatest<[User[], Filter]>([this.data.list(), this.filters.filters$]).subscribe({
+    
+    // Initial load
+    this.data.list().subscribe();
+
+    // Listen to the shared users observable and filters
+    combineLatest<[User[], Filter]>([this.data.users, this.filters.filters$]).subscribe({
       next: ([rows, filter]) => {
-        const filteredUsers = this.filters.filterUsers(rows || [], filter);
+        this.allUsers = rows || [];
+        const filteredUsers = this.filters.filterUsers(this.allUsers, filter);
         this.dataSource.data = filteredUsers;
         this.loading = false;
       },
@@ -57,5 +70,19 @@ export class UserTableComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  viewDetails(user: User) {
+    console.log('View details for:', user);
+    alert(`User Details:\nName: ${user.name}\nEmail: ${user.email}\nStatus: ${user.status}`);
+  }
+
+  toggleStatus(user: User) {
+    const newStatus = user.status === 'active' ? 'inactive' : 'active';
+    user.status = newStatus;
+    console.log(`Toggled status for ${user.name} to ${newStatus}`);
+    
+    // Update the shared state to trigger metrics recalculation
+    this.data.updateUsers([...this.allUsers]);
   }
 }

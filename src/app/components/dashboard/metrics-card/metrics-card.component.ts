@@ -37,7 +37,11 @@ export class MetricsCardComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    combineLatest<[User[], Filter]>([this.data.list(), this.filters.filters$])
+    // Initial load
+    this.data.list().subscribe();
+
+    // Listen to both the shared users observable and filters
+    combineLatest<[User[], Filter]>([this.data.users, this.filters.filters$])
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: ([rows, filter]) => {
