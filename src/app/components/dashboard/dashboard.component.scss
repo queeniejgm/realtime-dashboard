@@ -4,6 +4,8 @@
   margin: 0 auto;
   background-color: #fafafa;
   min-height: calc(100vh - 64px);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch; /* smooth iOS scrolling */
 }
 
 @media (max-width: 768px) {
