@@ -19,6 +19,8 @@
 
   mat-card-header {
     margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--color-border);
   }
 
   mat-icon[mat-card-avatar] {
@@ -26,11 +28,26 @@
     height: 40px;
     font-size: 40px;
     color: var(--color-primary);
+    opacity: 0.9;
   }
 
   mat-card-title {
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    line-height: 1.4;
+    
+    .title-label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.025em;
+      text-transform: uppercase;
+      color: var(--color-text-secondary);
+      transition: color 0.2s ease;
+    }
+  }
+
+  &:hover mat-card-title .title-label {
+    color: var(--color-primary);
   }
 
   .metric-value {
