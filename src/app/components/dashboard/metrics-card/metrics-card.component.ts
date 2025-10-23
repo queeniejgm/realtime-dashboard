@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,7 +17,22 @@ import { DurationPipe } from '../../../pipes';
   standalone: true,
   imports: [CommonModule, MatCardModule, MatProgressSpinnerModule, MatIconModule, DurationPipe],
   templateUrl: './metrics-card.component.html',
-  styleUrl: './metrics-card.component.scss'
+  styleUrl: './metrics-card.component.scss',
+  animations: [
+    trigger('cardAppear', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(20px)' }),
+        animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+      ])
+    ]),
+    trigger('valueChange', [
+      transition('* => *', [
+        style({ transform: 'scale(1)' }),
+        animate('200ms ease-in', style({ transform: 'scale(1.1)', color: '#3f51b5' })),
+        animate('200ms ease-out', style({ transform: 'scale(1)', color: '*' }))
+      ])
+    ])
+  ]
 })
 export class MetricsCardComponent implements OnInit {
   private readonly data = inject(DataService);
@@ -26,6 +42,14 @@ export class MetricsCardComponent implements OnInit {
   public readonly error$ = this.data.error$;
 
   metrics = {
+    totalActiveUsers: 0,
+    averageSessionDuration: 0,
+    conversionRate: 0,
+    revenueToday: 0
+  };
+
+  // Track animation states for value changes
+  animationStates = {
     totalActiveUsers: 0,
     averageSessionDuration: 0,
     conversionRate: 0,
@@ -51,12 +75,28 @@ export class MetricsCardComponent implements OnInit {
   private calculateMetrics(rows: User[]) {
     const activeUsers = rows.filter(row => row.status === 'active');
 
-    this.metrics = {
+    const newMetrics = {
       totalActiveUsers: this.calculateTotalActiveUsers(activeUsers),
       averageSessionDuration: this.calculateAverageSessionDuration(activeUsers),
       conversionRate: this.calculateConversionRate(activeUsers),
       revenueToday: this.calculateRevenueToday(rows)
     };
+
+    // Update animation states when values change
+    if (newMetrics.totalActiveUsers !== this.metrics.totalActiveUsers) {
+      this.animationStates.totalActiveUsers++;
+    }
+    if (newMetrics.averageSessionDuration !== this.metrics.averageSessionDuration) {
+      this.animationStates.averageSessionDuration++;
+    }
+    if (newMetrics.conversionRate !== this.metrics.conversionRate) {
+      this.animationStates.conversionRate++;
+    }
+    if (newMetrics.revenueToday !== this.metrics.revenueToday) {
+      this.animationStates.revenueToday++;
+    }
+
+    this.metrics = newMetrics;
   }
 
   private calculateTotalActiveUsers(activeUsers: User[]): number {

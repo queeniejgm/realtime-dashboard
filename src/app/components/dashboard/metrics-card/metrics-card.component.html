@@ -2,43 +2,43 @@
   @let loading = (loading$ | async);
   @let error = (error$ | async);
   @if (!loading && !error) {
-    <mat-card class="metric-card">
+    <mat-card class="metric-card" @cardAppear>
       <mat-card-header>
         <mat-icon mat-card-avatar>people</mat-icon>
         <mat-card-title>Total Active Users</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <div class="metric-value">{{ metrics.totalActiveUsers | number }}</div>
+        <div class="metric-value" [@valueChange]="animationStates.totalActiveUsers">{{ metrics.totalActiveUsers | number }}</div>
       </mat-card-content>
     </mat-card>
 
-    <mat-card class="metric-card">
+    <mat-card class="metric-card" @cardAppear>
       <mat-card-header>
         <mat-icon mat-card-avatar>schedule</mat-icon>
         <mat-card-title>Avg Session Duration</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <div class="metric-value">{{ metrics.averageSessionDuration | duration }}</div>
+        <div class="metric-value" [@valueChange]="animationStates.averageSessionDuration">{{ metrics.averageSessionDuration | duration }}</div>
       </mat-card-content>
     </mat-card>
 
-    <mat-card class="metric-card">
+    <mat-card class="metric-card" @cardAppear>
       <mat-card-header>
         <mat-icon mat-card-avatar>trending_up</mat-icon>
         <mat-card-title>Conversion Rate</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <div class="metric-value">{{ (metrics.conversionRate * 100) | number:'1.0-1' }}<span class="unit">%</span></div>
+        <div class="metric-value" [@valueChange]="animationStates.conversionRate">{{ (metrics.conversionRate * 100) | number:'1.0-1' }}<span class="unit">%</span></div>
       </mat-card-content>
     </mat-card>
 
-    <mat-card class="metric-card">
+    <mat-card class="metric-card" @cardAppear>
       <mat-card-header>
         <mat-icon mat-card-avatar>attach_money</mat-icon>
         <mat-card-title>Revenue Today</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <div class="metric-value">${{ metrics.revenueToday | number:'1.0-2' }}</div>
+        <div class="metric-value" [@valueChange]="animationStates.revenueToday">${{ metrics.revenueToday | number:'1.0-2' }}</div>
       </mat-card-content>
     </mat-card>
   } @else {
