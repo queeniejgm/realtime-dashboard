@@ -6,11 +6,12 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { FilterService } from '../../services/filter.service';
 import { DataService } from '../../services/data.service';
 import { CommonModule } from '@angular/common';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, MatToolbarModule, MatButtonModule, MatIconModule, MatBadgeModule],
+  imports: [CommonModule, MatToolbarModule, MatButtonModule, MatIconModule, MatBadgeModule, MatTooltipModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -30,9 +31,11 @@ export class HeaderComponent implements OnInit {
   }
 
   refreshData() {
-    // Clear the cached data and trigger a new fetch
+    // Clear cached data
     this.dataService.refresh();
-    // Trigger update to all subscribed components
+    // Actively trigger a re-fetch so loading state and data update propagate
+    this.dataService.list().subscribe({ error: () => {} });
+    // Nudge filters stream so consumers recompute with fresh data
     this.filterService.updateFilters(this.filterService.currentFilters);
   }
 

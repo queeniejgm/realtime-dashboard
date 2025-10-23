@@ -4,11 +4,14 @@
   
   <button mat-icon-button [matBadge]="activeFiltersCount" matBadgeColor="accent" 
           [matBadgeHidden]="activeFiltersCount === 0"
-          matTooltip="Active Filters">
+          matTooltip="View and manage active filters"
+          matTooltipPosition="below">
     <mat-icon>filter_list</mat-icon>
   </button>
   
-  <button mat-icon-button (click)="refreshData()" matTooltip="Refresh Data">
+  <button mat-icon-button (click)="refreshData()" 
+          matTooltip="Refresh dashboard data"
+          matTooltipPosition="below">
     <mat-icon>refresh</mat-icon>
   </button>
 </mat-toolbar>
