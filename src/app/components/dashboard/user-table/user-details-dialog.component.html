@@ -1,0 +1,46 @@
+<h2 mat-dialog-title>
+  <mat-icon>person</mat-icon>
+  User Details
+</h2>
+<mat-dialog-content>
+  <div class="detail-row">
+    <strong>Name:</strong> <span>{{ data.name }}</span>
+  </div>
+  <div class="detail-row">
+    <strong>Email:</strong> <span>{{ data.email }}</span>
+  </div>
+  <div class="detail-row">
+    <strong>Phone:</strong> <span>{{ data.phone }}</span>
+  </div>
+  <div class="detail-row">
+    <strong>Status:</strong> 
+    <mat-chip [class]="'status-chip-' + data.status">{{ data.status }}</mat-chip>
+  </div>
+  <div class="detail-row">
+    <strong>Address:</strong> <span>{{ data.address }}</span>
+  </div>
+  <div class="detail-row">
+    <strong>Member Since:</strong> <span>{{ data.memberSince | date: 'mediumDate' }}</span>
+  </div>
+  <div class="detail-row">
+    <strong>Last Login:</strong> <span>{{ data.lastLogin | date: 'medium' }}</span>
+  </div>
+  <div class="detail-row">
+    <strong>Total Sessions:</strong> <span>{{ data.sessionCount }}</span>
+  </div>
+  <div class="detail-row">
+    <strong>Total Orders:</strong> <span>{{ data.totalOrders }}</span>
+  </div>
+  <div class="detail-row">
+    <strong>Avg Session Duration:</strong> <span>{{ data.avgSessionDuration }}</span>
+  </div>
+  <div class="detail-row">
+    <strong>Total Revenue:</strong> <span>${{ data.revenue | number:'1.2-2' }}</span>
+  </div>
+  <div class="detail-row">
+    <strong>Favorite Product:</strong> <span>{{ data.favoriteProduct }}</span>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

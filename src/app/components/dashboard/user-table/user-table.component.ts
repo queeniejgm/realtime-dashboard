@@ -9,12 +9,14 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog } from '@angular/material/dialog';
 import { DataService } from '../../../services/data.service';
 import { User } from '../../../models/user.interface';
 import { combineLatest } from 'rxjs';
 import { Filter } from '../../../models';
 import { FilterService } from '../../../services/filter.service';
 import { HighlightRowDirective } from '../../../directives';
+import { UserDetailsDialog } from './user-details-dialog.component';
 
 @Component({
   selector: 'app-user-table',
@@ -42,6 +44,7 @@ export class UserTableComponent implements OnInit, AfterViewInit {
   error: string | null = null;
   private readonly data = inject(DataService);
   private readonly filters = inject(FilterService);
+  private readonly dialog = inject(MatDialog);
   public readonly loading$ = this.data.loading$;
   public readonly error$ = this.data.error$;
   private allUsers: User[] = [];
@@ -78,7 +81,24 @@ export class UserTableComponent implements OnInit, AfterViewInit {
 
   viewDetails(user: User) {
     console.log('View details for:', user);
-    alert(`User Details:\nName: ${user.name}\nEmail: ${user.email}\nStatus: ${user.status}`);
+    this.dialog.open(UserDetailsDialog, {
+      data: {
+        name: user.name,
+        email: user.email,
+        status: user.status,
+        lastLogin: user.lastLogin,
+        sessionCount: user.sessionCount,
+        revenue: user.revenue,
+        // Mock additional details
+        phone: '+1 (555) 123-4567',
+        address: '123 Main St, San Francisco, CA 94102',
+        memberSince: new Date(2023, 0, 15),
+        totalOrders: Math.floor(user.sessionCount * 1.5),
+        avgSessionDuration: `${Math.floor(Math.random() * 30 + 10)} min`,
+        favoriteProduct: 'Premium Plan'
+      },
+      width: '500px'
+    });
   }
 
   toggleStatus(user: User) {

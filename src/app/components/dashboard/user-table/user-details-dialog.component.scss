@@ -1,0 +1,45 @@
+mat-dialog-content {
+  padding: 20px 24px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+strong {
+  color: #666;
+  min-width: 180px;
+}
+
+span {
+  flex: 1;
+  text-align: right;
+}
+
+mat-chip {
+  margin-left: auto;
+}
+
+h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-chip-active {
+  background-color: #4caf50;
+  color: white;
+}
+
+.status-chip-inactive {
+  background-color: #f44336;
+  color: white;
+}
