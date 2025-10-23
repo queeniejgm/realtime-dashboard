@@ -38,9 +38,11 @@
           <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
             <td mat-cell *matCellDef="let user">
-              <mat-chip [class]="'status-chip-' + user.status">
-                {{ user.status }}
-              </mat-chip>
+              <mat-chip-set>
+                <mat-chip [class]="'status-chip-' + user.status" [highlighted]="user.status === 'active'">
+                  {{ user.status }}
+                </mat-chip>
+              </mat-chip-set>
             </td>
           </ng-container>
 

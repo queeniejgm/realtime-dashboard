@@ -48,19 +48,42 @@
       border-bottom: 1px solid var(--color-border);
     }
 
+    mat-chip-set {
+      display: inline-flex;
+    }
+
     mat-chip {
-      min-height: 24px;
-      padding: 4px 12px;
-      font-size: 0.875rem;
+      --mdc-chip-container-height: 28px;
+      --mdc-chip-label-text-size: 0.813rem;
+      font-weight: 500;
+      overflow: hidden;
       
       &.status-chip-active {
-        background-color: var(--color-success);
-        color: white;
+        --mdc-chip-elevated-container-color: #10b981;
+        --mdc-chip-label-text-color: white;
+        --mdc-chip-with-icon-icon-color: white;
+        
+        .mdc-evolution-chip__cell,
+        .mdc-evolution-chip__action,
+        .mdc-evolution-chip__graphic,
+        .mdc-evolution-chip__text-label {
+          background-color: #10b981;
+          color: white;
+        }
       }
       
       &.status-chip-inactive {
-        background-color: var(--color-text-muted);
-        color: white;
+        --mdc-chip-elevated-container-color: #6b7280;
+        --mdc-chip-label-text-color: white;
+        --mdc-chip-with-icon-icon-color: white;
+        
+        .mdc-evolution-chip__cell,
+        .mdc-evolution-chip__action,
+        .mdc-evolution-chip__graphic,
+        .mdc-evolution-chip__text-label {
+          background-color: #6b7280;
+          color: white;
+        }
       }
     }
   }
