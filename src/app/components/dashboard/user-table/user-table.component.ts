@@ -28,7 +28,7 @@ import { FilterService } from '../../../services/filter.service';
   styleUrl: './user-table.component.scss'
 })
 export class UserTableComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['name', 'email', 'status', 'lastLogin', 'sessionCount'];
+  displayedColumns: string[] = ['name', 'email', 'status', 'lastLogin', 'sessionCount', 'revenue'];
   dataSource = new MatTableDataSource<User>([]);
   loading = false;
   error: string | null = null;

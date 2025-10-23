@@ -87,16 +87,8 @@ export class MetricsCardComponent implements OnInit {
   }
 
   private calculateRevenueToday(rows: User[]): number {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-
     return rows.reduce((sum, row) => {
-      const lastLogin = row?.lastLogin ? new Date(row.lastLogin) : undefined;
-      const isToday = lastLogin && lastLogin >= today && lastLogin < tomorrow;
-      
-      return sum + (isToday ? (row.revenue || 0) : 0);
+      return sum + (row.revenue || 0);
     }, 0);
   }
 }
