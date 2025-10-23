@@ -1,12 +1,15 @@
 .filter-panel {
   margin-bottom: 2rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
 }
 
 .filter-form {
   .form-row {
     display: flex;
     gap: 1rem;
-    align-items: flex-start;
+    align-items: center;
     flex-wrap: wrap;
 
     mat-form-field {
@@ -19,11 +22,24 @@
     }
 
     button {
-      margin-top: 8px;
+      margin-top: -20px;
       height: 56px;
       min-width: 150px;
       white-space: nowrap;
     }
   }
+}
+
+// Input and select visual updates
+mat-form-field.mat-form-field-appearance-outline {
+  --mdc-outlined-text-field-outline-color: var(--color-border);
+  --mdc-outlined-text-field-hover-outline-color: var(--color-text-muted);
+}
+
+.mat-mdc-form-field-subscript-wrapper { display: none; }
+
+.mat-mdc-raised-button.mat-accent {
+  background: var(--color-accent);
+  color: #fff;
 }
 

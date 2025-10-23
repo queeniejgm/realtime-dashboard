@@ -2,7 +2,9 @@
   padding: 2rem;
   max-width: 1400px;
   margin: 0 auto;
-  background-color: #fafafa;
+  background: radial-gradient(1200px 800px at 20% -10%, rgba(124, 58, 237, 0.06), transparent 50%),
+              radial-gradient(1000px 700px at 100% 10%, rgba(244, 63, 94, 0.05), transparent 50%),
+              var(--page-bg);
   min-height: calc(100vh - 64px);
   overflow: auto;
   -webkit-overflow-scrolling: touch; /* smooth iOS scrolling */

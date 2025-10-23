@@ -7,7 +7,7 @@ mat-dialog-content {
   justify-content: space-between;
   align-items: center;
   padding: 8px 0;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .detail-row:last-child {
@@ -15,7 +15,7 @@ mat-dialog-content {
 }
 
 strong {
-  color: #666;
+  color: var(--color-text-secondary);
   min-width: 180px;
 }
 
@@ -35,11 +35,11 @@ h2 {
 }
 
 .status-chip-active {
-  background-color: #4caf50;
+  background-color: var(--color-success);
   color: white;
 }
 
 .status-chip-inactive {
-  background-color: #f44336;
+  background-color: var(--color-danger);
   color: white;
 }
